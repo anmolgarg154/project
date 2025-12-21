@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import connectDb from "./db/Db.js"
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const port = process.env.PORT || 4000;
 
 app.use(cors());
 
+connectDb();
 app.get("/", (req, res) => {
     res.send("Backend is running");
 });
