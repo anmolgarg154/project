@@ -1,23 +1,40 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-let port = 4000
+const app = express();
+const port = process.env.PORT || 4000;
 
+app.use(cors());
 
-app.get("/",(req,res)=>{
-    res.send("hello gfvhdbj hfdb")
-})
-app.get("/api",(req,res)=>{
-    res.json({message:"hello world"})
-})
+app.get("/", (req, res) => {
+    res.send("Backend is running");
+});
 
-app.listen(port,()=>{
-    console.log(`server running at port http://localhost:${port}`)
-})
+app.get("/api/jokes", (req, res) => {
+    const jokes = [
+        {
+            id: 1,
+            joke: "Why don't scientists trust atoms? Because they make up everything!",
+            content: "Some content here"
+        },
+        {
+            id: 2,
+            joke: "Why did the scarecrow win an award? Because he was outstanding in his field!",
+            content: "Some content here"
+        },
+        {
+            id: 3,
+            joke: "Why did the scarecrow win an award? Because he was outstanding in his field!",
+            content: "Some content here"
+        }
+    ];
 
-app.listen(process.env.PORT,()=>{
-    console.log(`listening at port http://localhost:${process.env.PORT}`)
-})
+    res.json(jokes);
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
