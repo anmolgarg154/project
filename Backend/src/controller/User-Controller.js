@@ -6,11 +6,13 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 const registerUser = asyncHandler(async(req, res)=>
     {
     
-    const {Username, Email, Password} = req.body;
-    console.log("Email : ",Email);
+    const {Username, Email, PhoneNumber, Password} = req.body;
+    console.log("Email : ",Email)
+     console.log("Username : ",Username);
+      console.log("Phone Number : ",PhoneNumber)
     console.log("Password :", Password);
 
-    if (!Username || !Email || !Password) {
+    if (!Username || !Email || !PhoneNumber || !Password) {
     throw new ApiError(400, "All fields are required");
 }
 
@@ -28,6 +30,7 @@ const registerUser = asyncHandler(async(req, res)=>
    const newUser = await Usermodel.create({
         Username,
         Email,
+        PhoneNumber,
         Password
    })
 

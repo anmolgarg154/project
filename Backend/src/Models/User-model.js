@@ -15,13 +15,16 @@ let UserSchema = mongoose.Schema({
         lowercase: true,
         trim: true
     },
+    PhoneNumber: {
+        type: String,
+        required: true,
+        trim : true
+    },
     Password: {
         type: String,
         required: [true, "Password is required"],
-         unique: true,
-        lowercase: true,
-        trim:true
+       
     }
 })
  
-export const Usermodel = mongoose.model("USers-rergister", UserSchema);
+export const Usermodel = mongoose.model("USers-register", UserSchema);
