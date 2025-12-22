@@ -21,11 +21,7 @@ let UserSchema = mongoose.Schema({
          unique: true,
         lowercase: true,
         trim:true
-    },
-    refreshToken: {
-        type: String
     }
-    
 })
  
 export const Usermodel = mongoose.model("USers-rergister", UserSchema);
