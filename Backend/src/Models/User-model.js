@@ -4,14 +4,13 @@ let UserSchema = mongoose.Schema({
     Username: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true,
         trim: true
     },
     Email: {
         type: String,
         required: true,
-        unique: true,
+       
         lowercase: true,
         trim: true
     },
@@ -27,4 +26,4 @@ let UserSchema = mongoose.Schema({
     }
 })
  
-export const Usermodel = mongoose.model("USers-register", UserSchema);
+export const Usermodel = mongoose.model("Users-register", UserSchema);

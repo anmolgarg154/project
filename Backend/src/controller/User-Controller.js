@@ -40,8 +40,42 @@ const registerUser = asyncHandler(async(req, res)=>
 
 })
 
+let LoginUser = asyncHandler(async (req,res)=>{
+   
+    console.log('1',LoginUser);  
+    const { Email,Password } = req.body
+    console.log("login data",req.body);
 
-export {registerUser};
+    if( Email === "" || Password === "" ){
+        throw new ApiError(400,"Both fields are required")
+    }
+
+   const UserFind =  await Usermodel.findOne({
+      $and : [{Email}]
+   })
+    
+   if(!UserFind){
+    throw new ApiError(401,"User does not exist")
+   }
+
+   const loginInUser = await Usermodel.findById(UserFind._id).select("-Password")
+
+//    FOR ADDING COOKIES
+
+//    const option ={
+//     httpOnly:true,
+//     secure:true
+//    }
+   
+   return res.status(200).json(
+      new ApiResponse(200,{loginInUser},"login deatils wrong")
+   )
+
+
+})
+
+
+export {registerUser ,LoginUser};
 
 
 
