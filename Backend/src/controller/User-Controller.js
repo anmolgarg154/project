@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async(req, res)=>
 
 })
 
-let LoginUser = asyncHandler(async (req,res)=>{
+const LoginUser = asyncHandler(async (req,res)=>{
    
     console.log('1',LoginUser);  
     const { Email,Password } = req.body
@@ -72,6 +72,10 @@ let LoginUser = asyncHandler(async (req,res)=>{
    )
 
 
+})
+
+const LogoutUser = asyncHandler(async(req,res)=>{
+   
 })
 
 
