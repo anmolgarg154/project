@@ -40,39 +40,32 @@ const registerUser = asyncHandler(async(req, res)=>
 
 })
 
-const LoginUser = asyncHandler(async (req,res)=>{
-   
-    console.log('1',LoginUser);  
-    const { Email,Password } = req.body
-    console.log("login data",req.body);
+const LoginUser = asyncHandler(async (req, res) => {
+  const { Email, Password } = req.body;
 
-    if( Email === "" || Password === "" ){
-        throw new ApiError(400,"Both fields are required")
-    }
+  if (!Email || !Password) {
+    throw new ApiError(400, "Both fields are required");
+  }
 
-   const UserFind =  await Usermodel.findOne({
-      $and : [{Email}]
-   })
-    
-   if(!UserFind){
-    throw new ApiError(401,"User does not exist")
-   }
+  const UserFind = await Usermodel.findOne({ Email });
+  if (!UserFind) {
+    throw new ApiError(404, "User does not exist");
+  }
 
-   const loginInUser = await Usermodel.findById(UserFind._id).select("-Password")
+  const isPasswordValid = await UserFind.isPasswordCorrect(Password);
+  console.log("Password valid:", isPasswordValid);
 
-//    FOR ADDING COOKIES
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Password incorrect");
+  }
 
-//    const option ={
-//     httpOnly:true,
-//     secure:true
-//    }
-   
-   return res.status(200).json(
-      new ApiResponse(200,{loginInUser},"login deatils wrong")
-   )
+  const loginInUser = UserFind.toObject();
+  delete loginInUser.Password;
 
-
-})
+  return res.status(200).json(
+    new ApiResponse(200, { loginInUser }, "login successfully")
+  );
+});
 
 const LogoutUser = asyncHandler(async(req,res)=>{
    
