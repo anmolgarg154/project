@@ -1,9 +1,8 @@
-import { Course } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import {CourseModel} from "../Models/course-model.js"
 
 export const createCourse = asyncHandler(async (req, res) => {
 
-  // 1️⃣ Text data from form
   const {
     id,
     courseName,
@@ -15,15 +14,13 @@ export const createCourse = asyncHandler(async (req, res) => {
     price
   } = req.body;
 
-  // 2️⃣ Image from multer
   const image = req.file?.path;
 
   if (!image) {
     return res.status(400).json({ message: "Image is required" });
   }
 
-  // 3️⃣ Save to DB
-  const course = await Course.create({
+  const course = await CourseModel.create({
     id,
     courseName,
     image,
@@ -31,7 +28,7 @@ export const createCourse = asyncHandler(async (req, res) => {
     duration,
     description,
     level,
-    features: JSON.parse(features), // important
+    features: Array.isArray(features) ? features : JSON.parse(features),
     price
   });
 

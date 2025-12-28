@@ -23,5 +23,6 @@ import UserRoute from "./routes/User-route.js"
 // routes declartion
 
 app.use("/api/v1/users",UserRoute);
+app.use("/aa/course",UserRoute)
 
 export default app;
