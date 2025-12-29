@@ -12,8 +12,7 @@ const courseSchema = new mongoose.Schema({
     trim: true
   },
   image: {
-    type: String,
-    
+    type: String,    
   },
   subtitle: {
     type: String,
