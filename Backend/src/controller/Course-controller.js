@@ -37,3 +37,38 @@ export const createCourse = asyncHandler(async (req, res) => {
     data: course
   });
 });
+
+
+ // GET ALL COURSES  (GET)
+// This API is used to FETCH all courses
+// --------------------------------------------------------------------------
+
+export const getAllCourses = asyncHandler(async (req, res) => {
+  const courses = await CourseModel.find(); // fetch all courses
+
+  res.status(200).json({
+    success: true,
+    data: courses
+  });
+});
+
+// --------------------------------------------------------------------------
+
+// GET SINGLE COURSE BY ID  (GET)
+// This API fetches ONE course using custom id
+
+// --------------------------------------------------------------------------
+
+
+export const getSingleCourse = asyncHandler(async (req, res) => {
+  const course = await CourseModel.findOne({ id: req.params.id });
+
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: course
+  });
+});
