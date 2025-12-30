@@ -13,5 +13,17 @@ router.route("/create").post(
   createCourse
 );
 
+// get all courses
+router.get("/all", async (req, res) => {
+  const courses = await createCourse.find();
+  res.json(courses);
+});
+
+// get single course by custom id
+router.get("/:id", async (req, res) => {
+  const course = await createCourse.findOne({ id: req.params.id });
+  res.json(course);
+});
+
 
 export default router;
