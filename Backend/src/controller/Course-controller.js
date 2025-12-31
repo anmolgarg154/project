@@ -48,7 +48,7 @@ export const getAllCourses = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    data: courses
+    data: courses   
   });
 });
 
