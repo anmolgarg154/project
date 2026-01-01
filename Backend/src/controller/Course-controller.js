@@ -52,6 +52,7 @@ export const getAllCourses = asyncHandler(async (req, res) => {
   });
 });
 
+
 // --------------------------------------------------------------------------
 
 // GET SINGLE COURSE BY ID  (GET)
@@ -72,3 +73,22 @@ export const getSingleCourse = asyncHandler(async (req, res) => {
     data: course
   });
 });
+
+
+export const updateCourse = asyncHandler(async(req,res)=>{
+ const update = await CourseModel.findByIdAndUpdate( req.params._Id, req.body, 
+   { new: true, runValidators: true }
+ )
+ 
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: update
+  });
+})
+
+
+

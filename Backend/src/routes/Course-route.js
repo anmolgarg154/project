@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   createCourse,
   getAllCourses,
-  getSingleCourse
+  getSingleCourse,
+  updateCourse
 } from "../controller/Course-controller.js";
 
 import { upload } from "../middleware/upload.middleware.js";
@@ -18,5 +19,6 @@ router.route("/create").post(
 router.get("/all", getAllCourses);
 
 router.get("/:id", getSingleCourse);
+router.put("/_Id",updateCourse)
 
 export default router;
