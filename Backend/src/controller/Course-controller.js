@@ -92,14 +92,12 @@ export const updateCourse = asyncHandler(async(req,res)=>{
 })
 
 export const deleteCourse = asyncHandler(async(req,res)=>{
- const remove =  await CourseModel.deleteOne(req.params.id,req.body)
- if (!remove) {
-   throw new ApiError("course not delete")
- }
-
- res.status(200).json({
-     success:true,
-     data:remove
- })
+  try {
+    await CourseModel.findByIdAndDelete(req.params.id.req.body);
+    res.json({ message: "Article deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+ 
 })
 

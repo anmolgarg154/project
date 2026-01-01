@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createCourse,
+  deleteCourse,
   getAllCourses,
   getSingleCourse,
   updateCourse
@@ -19,6 +20,9 @@ router.route("/create").post(
 router.get("/all", getAllCourses);
 
 router.get("/:id", getSingleCourse);
+
 router.put("/_Id",updateCourse)
+
+router.delete("/delete",deleteCourse)
 
 export default router;
