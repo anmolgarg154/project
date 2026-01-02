@@ -78,10 +78,10 @@ export const getSingleCourse = asyncHandler(async (req, res) => {
 
 export const updateCourse = asyncHandler(async(req,res)=>{
  const update = await CourseModel.findByIdAndUpdate( req.params._Id, req.body, 
-   { new: true, runValidators: true }
+   { new: true}                  //  -- >  means after updation new info return by this {new : true}
  )
  
-  if (!course) {
+  if (!update) {
     return res.status(404).json({ message: "Course not found" });
   }
 
@@ -94,7 +94,7 @@ export const updateCourse = asyncHandler(async(req,res)=>{
 export const deleteCourse = asyncHandler(async(req,res)=>{
   try {
     await CourseModel.findByIdAndDelete(req.params.id.req.body);
-    res.json({ message: "Article deleted successfully" });
+    res.json({ message: "Course deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
