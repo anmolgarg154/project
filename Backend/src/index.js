@@ -7,6 +7,11 @@ dotenv.config();
 const port = 5000;
 
 
+
+app.get("/", (req, res) => {
+    res.send("Backend is running");
+});
+
 connectDb()
  .then(()=>{
     app.listen(port, () => {
@@ -20,8 +25,5 @@ connectDb()
 
 
 
-// app.get("/", (req, res) => {
-//     res.send("Backend is running");
-// });
 
 
