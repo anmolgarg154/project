@@ -22,7 +22,7 @@ const courseSchema = new mongoose.Schema({
   duration: String,
   level: String,
   features: {
-    type: [String] // or Object
+    type: [String] 
   },
   price: {
     type: Number,
