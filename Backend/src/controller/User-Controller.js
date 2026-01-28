@@ -74,17 +74,33 @@ const LoginUser = asyncHandler(async (req, res) => {
   console.log("Password valid:", isPasswordValid);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Password incorrect");
+    throw new ApiError(401, "Password is incorrect");
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(UserFind._id);
 
-  const loginInUser = UserFind.toObject();
-  delete loginInUser.Password;
+  const loggedUser = await Usermodel.findById(UserFind._id).select("-Password ")
 
-  return res.status(200).json(
-    new ApiResponse(200, { loginInUser }, "login successfully")
-  );
+  const options = {
+    httponly :true,
+    secure:true
+  }
+
+  
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+         new ApiResponse(
+          
+          200,
+         { 
+          User: loggedUser , accessToken, refreshToken 
+        }, 
+         "login successfully")
+    );
 });
 
 const LogoutUser = asyncHandler(async(req,res)=>{

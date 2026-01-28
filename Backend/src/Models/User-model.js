@@ -25,6 +25,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  refreshTokens: {
+    type: String
+  }
 });
 
 // 🔐 HASH PASSWORD BEFORE SAVE
