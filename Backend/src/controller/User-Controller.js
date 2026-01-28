@@ -3,6 +3,23 @@ import {ApiError} from "../utils/ApiError.js";
 import { Usermodel } from "../Models/User-model.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 
+const generateAccessAndRefreshToken = async(userId)=>{
+  try {
+    const User = await Usermodel.findById(userId);
+    const accessToken = User.generateAccessToken();
+    const refreshToken = User.generateRefreshToken();
+    
+    User.refreshToken = refreshToken
+    await User.save({validateBeforeSave:false})
+
+    return{accessToken , refreshToken}
+
+
+  } catch (error) {
+    throw new ApiError(500, "something went wrong while generatig token")
+  }
+}
+
 const registerUser = asyncHandler(async(req, res)=>
     {
     
@@ -48,6 +65,7 @@ const LoginUser = asyncHandler(async (req, res) => {
   }
 
   const UserFind = await Usermodel.findOne({ Email });
+
   if (!UserFind) {
     throw new ApiError(404, "User does not exist");
   }
@@ -58,6 +76,8 @@ const LoginUser = asyncHandler(async (req, res) => {
   if (!isPasswordValid) {
     throw new ApiError(401, "Password incorrect");
   }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(UserFind._id);
 
   const loginInUser = UserFind.toObject();
   delete loginInUser.Password;
