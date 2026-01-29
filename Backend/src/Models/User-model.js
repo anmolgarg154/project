@@ -38,22 +38,35 @@ UserSchema.pre("save", async function (next) {
 });
 
 // ✅ INSTANCE METHOD (THIS FIXES YOUR ERROR)
-UserSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.Password);
+UserSchema.methods.isPasswordCorrect = async function (Password) {
+  return await bcrypt.compare(Password, this.Password);
 };
 
 UserSchema.methods.generateAccessToken = function(){
   return jwt.sign(
-    {
+    {                               // payload
       _id:this._id,
       Username: this.Username,
       Email:this.Email
 
     },
-    process.env.Access_Token_Secret,
+    process.env.Access_Token_Secret,                   // access token
     {
-      expiresIn:Access_Token_Expiry
+      expiresIn:Access_Token_Expiry                // access token expirt so JWT want all three thing in sign (payload, accessToken , accessToken expiry)
+    } 
+  )
+}
+
+UserSchema.methods.generateRefreshToken = function(){
+  jwt.sign(
+    {
+      _id:this._id
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn:REFRESH_TOKEN_EXPIRY
     }
+
   )
 }
 export const Usermodel = mongoose.model("Users-register", UserSchema);
