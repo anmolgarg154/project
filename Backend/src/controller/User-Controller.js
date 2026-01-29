@@ -105,10 +105,34 @@ const LoginUser = asyncHandler(async (req, res) => {
 
 const LogoutUser = asyncHandler(async(req,res)=>{
    
+   await Usermodel.findById(
+    req.User._id,
+    {
+      $set :{
+        refreshToken : undefined
+      },
+      
+    },
+    {
+        new :true
+      }
+   )
+     const options = {
+    httponly :true,
+    secure:true
+  }
+
+  return res.status(200)
+  .clearCookie("accessToken" , options)
+  .clearCookie("refreshToken" , options)
+  .json(new ApiResponse(200 , {}, "User Logout Successfully"))
+
 })
 
 
-export {registerUser ,LoginUser};
+
+
+export {registerUser ,LoginUser ,LogoutUser};
 
 
 

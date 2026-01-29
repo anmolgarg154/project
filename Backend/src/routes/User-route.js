@@ -1,17 +1,16 @@
 import { Router} from "express";
-import { LoginUser, registerUser } from "../controller/User-Controller.js";
-import { createCourse } from "../controller/Course-controller.js";
-import {upload} from "../middleware/upload.middleware.js"
+import { LoginUser, LogoutUser, registerUser } from "../controller/User-Controller.js";
+import { verifyJWT } from "../middleware/auth-middleware.js";
 
 const router = Router();
 
 router.route("/register").post(registerUser)
-router.route("/login").post(LoginUser);
+router.route("/login").post(
+    
+    LoginUser
+);
 
-// router.route("/create").post(
-//   upload.single("image"), // field name from frontend
-//   createCourse
-// );
+router.route("/logout").post(verifyJWT, LogoutUser)
 
 
 export default router;
