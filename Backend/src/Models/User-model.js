@@ -52,21 +52,23 @@ UserSchema.methods.generateAccessToken = function(){
     },
     process.env.Access_Token_Secret,                   // access token
     {
-      expiresIn:Access_Token_Expiry                // access token expirt so JWT want all three thing in sign (payload, accessToken , accessToken expiry)
+      expiresIn:process.env.Access_Token_Expiry                // access token expirt so JWT want all three thing in sign (payload, accessToken , accessToken expiry)
     } 
   )
 }
 
 UserSchema.methods.generateRefreshToken = function(){
-  jwt.sign(
+  return jwt.sign(
     {
       _id:this._id
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn:REFRESH_TOKEN_EXPIRY
+      expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     }
 
   )
 }
+
+
 export const Usermodel = mongoose.model("Users-register", UserSchema);

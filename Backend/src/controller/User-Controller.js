@@ -5,12 +5,12 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 
 const generateAccessAndRefreshToken = async(userId)=>{
   try {
-    const User = await Usermodel.findById(userId);
-    const accessToken = User.generateAccessToken();
-    const refreshToken = User.generateRefreshToken();
+    const User1 = await Usermodel.findById(userId);
+    const accessToken = User1.generateAccessToken();
+    const refreshToken = User1.generateRefreshToken();
     
-    User.refreshToken = refreshToken
-    await User.save({validateBeforeSave:false})
+    User1.refreshTokens = refreshToken
+    await User1.save({validateBeforeSave:false})
 
     return{accessToken , refreshToken}
 
@@ -64,7 +64,7 @@ const LoginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Both fields are required");
   }
 
-  const UserFind = await Usermodel.findOne({ Email });
+  const UserFind = await Usermodel.findOne({  Email });
 
   if (!UserFind) {
     throw new ApiError(404, "User does not exist");
@@ -79,10 +79,10 @@ const LoginUser = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(UserFind._id);
 
-  const loggedUser = await Usermodel.findById(UserFind._id).select("-Password ")
+  const loggedUser = await Usermodel.findById(UserFind._id).select("-Password")
 
   const options = {
-    httponly :true,
+    httpOnly :true,
     secure:true
   }
 
@@ -109,7 +109,7 @@ const LogoutUser = asyncHandler(async(req,res)=>{
     req.User._id,
     {
       $set :{
-        refreshToken : undefined
+        refreshTokens : undefined
       },
       
     },
@@ -118,7 +118,7 @@ const LogoutUser = asyncHandler(async(req,res)=>{
       }
    )
      const options = {
-    httponly :true,
+    httpOnly :true,
     secure:true
   }
 
