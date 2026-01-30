@@ -83,7 +83,8 @@ const LoginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly :true,
-    secure:true
+    secure:false,
+    sameSite:"lax"
   }
 
   
@@ -102,33 +103,25 @@ const LoginUser = asyncHandler(async (req, res) => {
          "login successfully")
     );
 });
-
 const LogoutUser = asyncHandler(async(req,res)=>{
-   
-   await Usermodel.findById(
-    req.User._id,
-    {
-      $set :{
-        refreshTokens : undefined
-      },
-      
-    },
-    {
-        new :true
-      }
-   )
-     const options = {
-    httpOnly :true,
-    secure:true
-  }
+   await Usermodel.findByIdAndUpdate(
+     req.user._id,
+     { $unset: { refreshTokens: 1 } },
+     { new: true }
+   );
 
-  return res.status(200)
-  .clearCookie("accessToken" , options)
-  .clearCookie("refreshToken" , options)
-  .json(new ApiResponse(200 , {}, "User Logout Successfully"))
+   const options = {
+     httpOnly: true,
+     secure: false,
+     sameSite: "lax"
+   };
 
-})
-
+   return res
+     .status(200)
+     .clearCookie("accessToken", options)
+     .clearCookie("refreshToken", options)
+     .json(new ApiResponse(200, {}, "User Logout Successfully"));
+});
 
 
 

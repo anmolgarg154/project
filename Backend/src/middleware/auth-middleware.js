@@ -4,9 +4,13 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Usermodel } from "../Models/User-model.js";
 
 export const verifyJWT = asyncHandler(async(req, res, next) => {
-  const token = req.cookies?.Access_Token_Secret   || req.header("Authorization")?.replace("Bearer " , "");
+const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+
+  console.log("token ", token)
 
   if (!token) {
+    console.log("Request cookies:", req.cookies); // debug
+    console.log("Request headers:", req.headers); // debug
     throw new ApiError(401, "Unauthorized request");
   }
 
