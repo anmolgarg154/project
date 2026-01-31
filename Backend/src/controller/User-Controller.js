@@ -137,8 +137,37 @@ const getDetails = asyncHandler(async (req, res) => {
   );
 });
 
+const updateProfile = asyncHandler(async (req, res) => {
+  const { Username, Email, PhoneNumber } = req.body;
 
-export {registerUser ,LoginUser ,LogoutUser , getDetails};
+  if (!Username && !Email && !PhoneNumber) {
+    throw new ApiError(400, "At least one field is required");
+  }
+
+  const updatedUser = await Usermodel.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        ...(Username && { Username }),
+        ...(Email && { Email }),
+        ...(PhoneNumber && { PhoneNumber }),
+      }
+    },
+    { new: true, runValidators: true }
+  ).select("-Password");
+
+  if (!updatedUser) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, updatedUser, "Profile updated successfully")
+  );
+});
+
+
+
+export {registerUser ,LoginUser ,LogoutUser , getDetails , updateProfile};
 
 
 
