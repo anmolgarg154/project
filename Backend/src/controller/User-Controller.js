@@ -103,6 +103,7 @@ const LoginUser = asyncHandler(async (req, res) => {
          "login successfully")
     );
 });
+
 const LogoutUser = asyncHandler(async(req,res)=>{
    await Usermodel.findByIdAndUpdate(
      req.user._id,
@@ -124,8 +125,20 @@ const LogoutUser = asyncHandler(async(req,res)=>{
 });
 
 
+const getDetails = asyncHandler(async (req, res) => {
+  const user = await Usermodel.findById(req.user._id).select("-Password");
 
-export {registerUser ,LoginUser ,LogoutUser};
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, user, "User details fetched successfully")
+  );
+});
+
+
+export {registerUser ,LoginUser ,LogoutUser , getDetails};
 
 
 
