@@ -166,8 +166,16 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await Usermodel.find().select("-Password");
 
-export {registerUser ,LoginUser ,LogoutUser , getDetails , updateProfile};
+  return res.status(200).json(
+    new ApiResponse(200, users, "All users fetched successfully")
+  );
+});
+
+
+export {registerUser ,LoginUser ,LogoutUser , getDetails , updateProfile, getAllUsers};
 
 
 

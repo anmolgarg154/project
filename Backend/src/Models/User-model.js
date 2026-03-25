@@ -25,9 +25,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  refreshTokens: {
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
+  },
+  refreshTokens:[ {
     type: String
-  }
+  }]
 });
 
 // 🔐 HASH PASSWORD BEFORE SAVE

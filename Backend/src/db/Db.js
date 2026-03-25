@@ -1,13 +1,37 @@
+// import mysql from "mysql2/promise";
+
+// const connectDb = async () => {
+//   try {
+//     const connection = await mysql.createConnection({
+//       host: process.env.MYSQL_HOST || "localhost",
+//       user: process.env.MYSQL_USER || "root",
+//       password: process.env.MYSQL_PASSWORD,
+//       database: process.env.MYSQL_DATABASE || "node_app",
+//       port: process.env.MYSQL_PORT || 3306,
+//     });
+
+//     console.log("DB connected");
+
+//     return connection; // important
+//   } catch (error) {
+//     console.error("Error connecting to MySQL:", error);
+//     process.exit(1);
+//   }
+// };
+
+// export default connectDb;
+
+
 import mongoose from "mongoose";
 
-let connectDb = async ()=>{
-    try {
-        let connection =  await  mongoose.connect('mongodb+srv://anmolgarg1077:VVSQk26yyeYcCaBY@cluster0.uqp1v.mongodb.net/Course-project');
-        console.log(`MongoDB connected: ${connection.connection.host}`);
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        process.exit(1);
-    }
-}
+const connectDb = async () => {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/mydatabase");
+    console.log("DB connected");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1);
+  }
+};
 
 export default connectDb;
