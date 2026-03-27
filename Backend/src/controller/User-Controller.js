@@ -167,10 +167,21 @@ const updateProfile = asyncHandler(async (req, res) => {
 
 
 const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await Usermodel.find().select("-Password");
+  const users = await Usermodel.find().select("-Password -refreshTokens");
+  console.log("users details ",users)
+  if(!users){
+    return res.status(404).json({
+       success: false,
+       message:"users does not exist"
+    })
+  }
 
   return res.status(200).json(
-    new ApiResponse(200, users, "All users fetched successfully")
+   {
+    success:true,
+    message:"Details fetched successfully",
+    data:users
+   }
   );
 });
 

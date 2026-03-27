@@ -39,14 +39,13 @@ app.use(cookieParser());
 
 import UserRoute from "./routes/User-route.js"
 import CourseRoute from "./routes/Course-route.js"
-import { isAdmin } from "./middleware/admin.js";
-
+import Admin from "./routes/Admin.js"
 // routes declartion
 
 app.use("/api/v1/users",UserRoute);
 app.use("/api/v1/course", CourseRoute)
 
 
-app.use("/admin",isAdmin)
+app.use("/admin",Admin)
 
 export default app;
