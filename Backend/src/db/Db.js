@@ -1,5 +1,7 @@
 // import mysql from "mysql2/promise";
 
+import mongoose from "mongoose";
+
 // const connectDb = async () => {
 //   try {
 //     const connection = await mysql.createConnection({
@@ -22,7 +24,6 @@
 // export default connectDb;
 
 
-import mongoose from "mongoose";
 
 const connectDb = async () => {
   try {
@@ -35,3 +36,16 @@ const connectDb = async () => {
 };
 
 export default connectDb;
+
+// const connectdb = async () => {
+//   try {
+//     const mongo = await mongoose.connect(process.env.MONGODB_URI);
+
+//     console.log("DB connected");
+//   } catch (error) {
+//     console.error("Error connecting to MongoDB:", error);
+//     process.exit(1);
+//   }
+// };
+
+// export default connectdb;
